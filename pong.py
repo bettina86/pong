@@ -14,10 +14,19 @@ class ball:
         self.vx = 2.5
         self.vy = 2.5
         self.ball = pygame.draw.rect(windowSurface, WHITE, (200, 200, 10, 10), 0)
+        self.timer = 50
              
-    def respawnBall(self):
-        pygame.time.wait(1000)
+    def ballWait(self, y):
+        self.timer = y        
+        if self.timer == 0:
+            self.respawnBall()            
+        else:
+            self.ballWait(y - 1)        
+
+    def respawnBall(self):        
         self.ball = pygame.draw.rect(windowSurface, WHITE, (195, 195, 10, 10), 0)
+        self.vx = 2.5
+        self.vy = 2.5
 
     def moveBall(self):
         if self.vx == 2.5:
@@ -32,10 +41,10 @@ class ball:
     def collideBall(self, paddle):
         if self.ball.right > WINDOWWIDTH - 10.0:
             s1.playerScore += 1          
-            self.respawnBall()            
+            self.ballWait(50)            
         if self.ball.left < 0 + 10.0:
             s2.playerScore += 1            
-            self.respawnBall()
+            self.ballWait(50)
             
         if self.ball.top < WINDOWHEIGHT + 10.0:
             self.vy = 2.5
@@ -86,7 +95,7 @@ class score:
         if self.playerScore == 0:
             # DRAW ZERO
             self.ZERO = pygame.draw.polygon(windowSurface, WHITE, ((85 + x, 10), (115 + x, 10), (115 + x, 40), (85 + x, 40)))
-            self.ZERO2 = pygame.draw.polygon(windowSurface, BLACK, ((91 + x, 16), (109 + x, 16), (109 + x, 34), (9 + x, 34)))
+            self.ZERO2 = pygame.draw.polygon(windowSurface, BLACK, ((91 + x, 16), (109 + x, 16), (109 + x, 34), (91 + x, 34)))
    
         if self.playerScore == 1:
             # DRAW ONE
@@ -210,9 +219,9 @@ def main():
                         b1.vy = 2.5
                     
                 if event.key == ord('z'): # MOVE DOWN
-                    p1.vy = 5.0                 
+                    p1.vy = 5.0
                 if event.key == ord('a'): # MOVE UP
-                    p1.vy = -5.0                 
+                    p1.vy = -5.0                
                 if event.key == ord('m'):
                     p2.vy = 5.0                 
                 if event.key == ord('j'):
@@ -257,21 +266,21 @@ def main():
         pygame.draw.line(windowSurface, WHITE, (WINDOWWIDTH - 2.0, WINDOWHEIGHT), (WINDOWWIDTH - 2.0, WINDOWDEPTH), 2)
         pygame.draw.line(windowSurface, WHITE, (0, WINDOWDEPTH), (WINDOWWIDTH, WINDOWDEPTH), 2)
       
-        background(195, 55)
-        background(195, 75)
-        background(195, 95)
-        background(195, 115)
-        background(195, 135)
-        background(195, 155)
-        background(195, 175)
-        background(195, 195)
-        background(195, 215)
-        background(195, 235)
-        background(195, 255)
-        background(195, 275)
-        background(195, 295)
-        background(195, 315)
-        background(195, 335)
+        crossSection = [background(195, 55)
+        , background(195, 75)
+        , background(195, 95)
+        , background(195, 115)
+        , background(195, 135)
+        , background(195, 155)
+        , background(195, 175)
+        , background(195, 195)
+        , background(195, 215)
+        , background(195, 235)
+        , background(195, 255)
+        , background(195, 275)
+        , background(195, 295)
+        , background(195, 315)
+        , background(195, 335)]
  
         pygame.draw.rect(windowSurface, WHITE, p1.player)
         pygame.draw.rect(windowSurface, WHITE, p2.player)
